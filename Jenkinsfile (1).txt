@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        PYTHON_PATH = 'C:\\Users\\akash\\AppData\\Local\\Programs\\Python\\Python313;C:\\Users\\akash\\AppData\\Local\\Programs\\Python\\Python313\\Scripts'
+        PYTHON_PATH = 'C:\\Program Files\\Python311;C:\\Program Files\\Python311\\Scripts'
     }
     stages {
         stage('Checkout') {
@@ -47,17 +47,14 @@ pipeline {
         }
 
         stage('SonarQube Analysis') {
-            environment {
-                SONAR_TOKEN = credentials('sonar-token') // Accessing the SonarQube token stored in Jenkins credentials
-            }
             steps {
                 bat '''
                 set PATH=%PYTHON_PATH%;%PATH%
-                sonar-scanner -Dsonar.projectKey=codecovrage ^
-                                            -Dsonar.sources=. ^
-                                            -Dsonar.python.coverage.reportPaths=coverage.xml ^
-                                            -Dsonar.host.url=http://localhost:9000 ^
-                                            -Dsonar.token=sqp_72ba8a32d8594b138f3a92569a947cca664e9805               
+                sonar-scanner -Dsonar.projectKey=final-coverage ^
+                              -Dsonar.sources=. ^
+                              -Dsonar.python.coverage.reportPaths=coverage.xml ^
+                              -Dsonar.host.url=http://localhost:9000 ^
+                              -Dsonar.token=sqp_d33c9ef10ff8d73ae91574190fbc00e4c86c1056
                 '''
             }
         }
